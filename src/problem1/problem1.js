@@ -33,3 +33,8 @@ var sum_to_n_c = function (n) {
 
   return n + sum_to_n_c(n - 1);
 };
+
+var sum_to_n_d = function (n) {
+  if (n <= 0) return 0;
+  return (n * (n + 1)) / 2;
+};
