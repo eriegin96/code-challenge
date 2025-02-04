@@ -1,11 +1,11 @@
-import { Button } from "./components/ui/button";
+import { SwapForm } from "./components";
 
 function App() {
   return (
-    <>
-      <div className="text-xl">App</div>
-      <Button variant="outline">Click me</Button>
-    </>
+    <div className="bg-indigo-950 w-screen h-screen flex flex-col justify-center items-center">
+      <h2 className="text-7xl font-bold text-white mb-20">Swap Currency</h2>
+      <SwapForm />
+    </div>
   );
 }
 
