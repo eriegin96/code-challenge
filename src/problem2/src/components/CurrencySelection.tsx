@@ -1,3 +1,4 @@
+import { CURRENCY_ICON, CURRENCY_LIST } from "@/constants/currency";
 import { Button } from "./ui/button";
 import {
   Select,
@@ -19,21 +20,25 @@ export function CurrencySelection({
   balance = 0,
 }: TCurrencySelectionProps) {
   return (
-    <div className="w-full bg-indigo-950 rounded-2xl p-4">
+    <div className="w-full bg-dark2 rounded-2xl p-4">
       <div className="flex justify-between items-center">
         <span>You {willPay ? "pay" : "receive"}</span>
         <span>Balance: {balance}</span>
       </div>
       <div className="my-3 flex justify-between items-center">
-        <span className="text-3xl font-semibold">{balance}</span>
+        <span className="text-4xl font-semibold">{balance}</span>
         <Select value={currency}>
-          <SelectTrigger className="w-4xl bg-indigo-900">
+          <SelectTrigger className="w-4xl bg-dark2">
             <SelectValue placeholder="Currency" />
           </SelectTrigger>
-          <SelectContent className="bg-indigo-900 text-white">
-            <SelectItem value="ETH">ETH</SelectItem>
-            <SelectItem value="USD">USD</SelectItem>
-            <SelectItem value="ATOM">ATOM</SelectItem>
+          <SelectContent className="bg-dark2 text-white">
+            {CURRENCY_LIST.map((currency) => (
+              <SelectItem key={currency} value={currency} className="flex">
+                <div className="flex items-center gap-2">
+                  <img src={CURRENCY_ICON[currency]}></img> {currency}
+                </div>
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
