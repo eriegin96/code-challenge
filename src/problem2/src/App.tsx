@@ -1,5 +1,6 @@
 import { SwapForm } from "./components";
 import { WalletProvider } from "./providers/WalletProvider";
+import "./App.css";
 
 function App() {
   return (

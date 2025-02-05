@@ -10,3 +10,6 @@ export const RANDOM_BALANCE = CURRENCY_LIST.reduce((balance, currentValue) => {
   balance[currentValue] = Math.random() * 100;
   return balance;
 }, {} as Record<string, number>);
+
+export const MIN_INPUT = 0.000001;
+export const MAX_INPUT = 1000;
