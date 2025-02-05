@@ -16,11 +16,20 @@ export const useSwapForm = () => {
 
   const fromCurrency = form.watch("fromCurrency");
   const toCurrency = form.watch("toCurrency");
+  const fromCurrencyList = CURRENCY_LIST.filter((c) => c !== toCurrency);
+  const toCurrencyList = CURRENCY_LIST.filter((c) => c !== fromCurrency);
   // exchange rate
 
   const onSubmit = (values: TSwapForm) => {
     console.log(values);
   };
 
-  return { form, fromCurrency, toCurrency, onSubmit };
+  return {
+    form,
+    fromCurrency,
+    toCurrency,
+    fromCurrencyList,
+    toCurrencyList,
+    onSubmit,
+  };
 };

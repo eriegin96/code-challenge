@@ -7,7 +7,14 @@ import { Form } from "./ui/form";
 
 export function SwapForm() {
   const { balance } = useWalletContext();
-  const { form, fromCurrency, toCurrency, onSubmit } = useSwapForm();
+  const {
+    form,
+    fromCurrency,
+    toCurrency,
+    fromCurrencyList,
+    toCurrencyList,
+    onSubmit,
+  } = useSwapForm();
 
   return (
     <Form {...form}>
@@ -17,6 +24,7 @@ export function SwapForm() {
             <CurrencySelection
               inputName="fromAmount"
               selectName="fromCurrency"
+              currencyList={fromCurrencyList}
               willPay
               balance={balance[fromCurrency]}
             />
@@ -30,6 +38,7 @@ export function SwapForm() {
             <CurrencySelection
               inputName="toAmount"
               selectName="toCurrency"
+              currencyList={toCurrencyList}
               balance={balance[toCurrency]}
             />
           </div>

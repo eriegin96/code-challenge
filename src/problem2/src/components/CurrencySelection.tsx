@@ -1,4 +1,4 @@
-import { CURRENCY_ICON, CURRENCY_LIST } from "@/constants/currency";
+import { CURRENCY_ICON } from "@/constants/currency";
 import { Button } from "./ui/button";
 import {
   Select,
@@ -20,8 +20,9 @@ import { Input } from "./ui/input";
 import { MAX_INPUT, MIN_INPUT } from "@/constants/balance";
 
 type TCurrencySelectionProps = {
-  inputName: keyof TSwapForm;
-  selectName: keyof TSwapForm;
+  inputName: keyof Pick<TSwapForm, "fromAmount" | "toAmount">;
+  selectName: keyof Pick<TSwapForm, "fromCurrency" | "toCurrency">;
+  currencyList: string[];
   willPay?: boolean;
   balance: number;
 };
@@ -30,6 +31,7 @@ export function CurrencySelection({
   inputName,
   selectName,
   willPay,
+  currencyList,
   balance = 0,
 }: TCurrencySelectionProps) {
   const { control } = useFormContext<TSwapForm>();
@@ -75,7 +77,7 @@ export function CurrencySelection({
                   <SelectValue placeholder="Currency" />
                 </SelectTrigger>
                 <SelectContent className="bg-dark2 text-white">
-                  {CURRENCY_LIST.map((currency) => (
+                  {currencyList.map((currency) => (
                     <SelectItem
                       key={currency}
                       value={currency}
