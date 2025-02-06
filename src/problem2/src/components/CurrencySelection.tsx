@@ -18,6 +18,8 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { MAX_INPUT, MIN_INPUT } from "@/constants/balance";
+import { calculateSwapAmount, fixAmountDecimal } from "@/utils";
+import { priceSummary } from "@/constants/price";
 
 type TCurrencySelectionProps = {
   inputName: keyof Pick<TSwapForm, "fromAmount" | "toAmount">;
@@ -25,6 +27,7 @@ type TCurrencySelectionProps = {
   currencyList: string[];
   willPay?: boolean;
   balance: number;
+  isDisabled: boolean;
 };
 
 export function CurrencySelection({
@@ -32,15 +35,43 @@ export function CurrencySelection({
   selectName,
   willPay,
   currencyList,
+  isDisabled = false,
   balance = 0,
 }: TCurrencySelectionProps) {
-  const { control } = useFormContext<TSwapForm>();
+  const { control, setValue, getValues } = useFormContext<TSwapForm>();
+
+  const handleChangeAmount = (
+    value: number,
+    fieldName: keyof Pick<TSwapForm, "fromAmount" | "toAmount">
+  ) => {
+    setValue(fieldName, value, { shouldDirty: true });
+
+    if (fieldName === "fromAmount") {
+      setValue(
+        "toAmount",
+        calculateSwapAmount(
+          priceSummary[getValues("fromCurrency")].price,
+          value,
+          priceSummary[getValues("toCurrency")].price
+        )
+      );
+    } else {
+      setValue(
+        "fromAmount",
+        calculateSwapAmount(
+          priceSummary[getValues("toCurrency")].price,
+          value,
+          priceSummary[getValues("fromCurrency")].price
+        )
+      );
+    }
+  };
 
   return (
     <div className="w-full bg-dark2 rounded-2xl p-4">
       <div className="flex justify-between items-center">
         <span>You {willPay ? "pay" : "receive"}</span>
-        <span>Balance: {balance}</span>
+        <span>Balance: {fixAmountDecimal(balance)}</span>
       </div>
       <div className="my-3 flex justify-between items-center gap-10">
         <FormField
@@ -49,15 +80,25 @@ export function CurrencySelection({
           render={({ field }) => (
             <FormItem>
               <FormDescription>
-                {MIN_INPUT} - {MAX_INPUT}
+                {MIN_INPUT.toFixed(8).toString()} - {MAX_INPUT}
               </FormDescription>
               <FormControl>
                 <Input
+                  {...field}
                   type="number"
                   min={0}
+                  step={MIN_INPUT}
                   className="!text-4xl font-semibold border-0 p-0"
                   placeholder=""
-                  {...field}
+                  onChange={(e) => {
+                    const value = Number(
+                      e.currentTarget.value.match(
+                        /^-?\d+(?:\.\d{0,8})?/
+                      )?.[0] ?? 0
+                    );
+                    handleChangeAmount(value, inputName);
+                  }}
+                  disabled={isDisabled}
                 />
               </FormControl>
               <FormMessage />
@@ -71,7 +112,8 @@ export function CurrencySelection({
             <FormItem>
               <Select
                 onValueChange={field.onChange}
-                defaultValue={field.value as string}
+                value={field.value as string}
+                disabled={isDisabled}
               >
                 <SelectTrigger className="w-28 bg-dark2">
                   <SelectValue placeholder="Currency" />
@@ -96,7 +138,13 @@ export function CurrencySelection({
         />
       </div>
       <div className="flex justify-end">
-        <Button size="sm" type="button">
+        <Button
+          size="sm"
+          type="button"
+          onClick={() =>
+            handleChangeAmount(fixAmountDecimal(balance), inputName)
+          }
+        >
           Max
         </Button>
       </div>

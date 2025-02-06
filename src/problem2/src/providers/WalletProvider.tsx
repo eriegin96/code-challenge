@@ -6,7 +6,8 @@ type TWalletContext = {
   swapBalance: (
     fromCurrency: string,
     fromAmount: number,
-    toCurrency: string
+    toCurrency: string,
+    toAmount: number
   ) => void;
 };
 
@@ -26,14 +27,15 @@ export function WalletProvider({ children }: TWalletProviderProps) {
   const swapBalance = (
     fromCurrency: string,
     fromAmount: number,
-    toCurrency: string
+    toCurrency: string,
+    toAmount: number
   ) => {
     setBalance((prev) => {
-      prev[fromCurrency] = 0;
+      prev[fromCurrency] -= fromAmount;
       return prev;
     });
     setBalance((prev) => {
-      prev[toCurrency] = fromAmount;
+      prev[toCurrency] += toAmount;
       return prev;
     });
   };
