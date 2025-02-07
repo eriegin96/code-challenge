@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useFormContext } from "react-hook-form";
-import { TSwapForm } from "@/configs/swapForm";
+import { percentageAmount, TSwapForm } from "@/configs/swapForm";
 import {
   FormControl,
   FormDescription,
@@ -138,16 +138,21 @@ export function CurrencySelection({
           )}
         />
       </div>
-      <div className="flex justify-end">
-        <Button
-          size="sm"
-          type="button"
-          onClick={() =>
-            handleChangeAmount(fixAmountDecimal(balance), inputName)
-          }
-        >
-          Max
-        </Button>
+      <div className="flex justify-end gap-3">
+        {percentageAmount.map(({ content, value }) => (
+          <Button
+            size="sm"
+            type="button"
+            onClick={() =>
+              handleChangeAmount(
+                fixAmountDecimal((balance * value) / 100),
+                inputName
+              )
+            }
+          >
+            {content}
+          </Button>
+        ))}
       </div>
     </div>
   );

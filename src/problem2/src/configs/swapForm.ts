@@ -21,3 +21,11 @@ export const defaultSwapFormValue = {
   toCurrency: CURRENCY_LIST[1],
   toAmount: 0,
 };
+
+export const percentageAmount = [
+  { value: 10, content: "10%" },
+  { value: 25, content: "25%" },
+  { value: 50, content: "50%" },
+  { value: 75, content: "75%" },
+  { value: 100, content: "Max" },
+];
