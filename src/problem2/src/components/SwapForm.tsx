@@ -15,7 +15,6 @@ import {
 import clsx from "clsx";
 import { calculateSwapAmount } from "@/utils";
 import { priceSummary } from "@/constants/price";
-import { CURRENCY_LIST } from "@/constants/currency";
 
 export function SwapForm() {
   const { balance } = useWalletContext();
@@ -23,6 +22,8 @@ export function SwapForm() {
     form,
     fromCurrency,
     toCurrency,
+    fromCurrencyList,
+    toCurrencyList,
     onSubmit,
     isLoading,
     isDialogOpen,
@@ -41,7 +42,7 @@ export function SwapForm() {
               <CurrencySelection
                 inputName="fromAmount"
                 selectName="fromCurrency"
-                currencyList={CURRENCY_LIST}
+                currencyList={fromCurrencyList}
                 willPay
                 balance={balance[fromCurrency]}
                 isDisabled={isLoading}
@@ -59,7 +60,7 @@ export function SwapForm() {
               <CurrencySelection
                 inputName="toAmount"
                 selectName="toCurrency"
-                currencyList={CURRENCY_LIST}
+                currencyList={toCurrencyList}
                 balance={balance[toCurrency]}
                 isDisabled={isLoading}
               />

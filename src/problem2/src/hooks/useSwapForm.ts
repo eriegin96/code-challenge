@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { delay } from "@/utils";
 import { useWalletContext } from "@/providers/WalletProvider";
+import { CURRENCY_LIST } from "@/constants/currency";
 
 export const useSwapForm = () => {
   const form = useForm<TSwapForm>({
@@ -22,6 +23,8 @@ export const useSwapForm = () => {
 
   const fromCurrency = form.watch("fromCurrency");
   const toCurrency = form.watch("toCurrency");
+  const fromCurrencyList = CURRENCY_LIST.filter((c) => c !== toCurrency);
+  const toCurrencyList = CURRENCY_LIST.filter((c) => c !== fromCurrency);
 
   const swapCurrencyPosition = () => {
     form.reset(
@@ -74,6 +77,8 @@ export const useSwapForm = () => {
     form,
     fromCurrency,
     toCurrency,
+    fromCurrencyList,
+    toCurrencyList,
     onSubmit,
     isLoading,
     isDialogOpen,

@@ -111,7 +111,7 @@ export function CurrencySelection({
           render={({ field }) => (
             <FormItem>
               <Select
-                onValueChange={field.onChange}
+                onValueChange={(value) => value && field.onChange(value)}
                 value={field.value as string}
                 disabled={isDisabled}
               >
