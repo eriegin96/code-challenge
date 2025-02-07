@@ -126,7 +126,8 @@ export function CurrencySelection({
                       className="flex"
                     >
                       <div className="flex items-center gap-2">
-                        <img src={CURRENCY_ICON[currency]} /> {currency}
+                        <img width={24} src={CURRENCY_ICON[currency]} />
+                        {currency}
                       </div>
                     </SelectItem>
                   ))}
